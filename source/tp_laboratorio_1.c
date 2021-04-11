@@ -261,38 +261,31 @@ int main(void)
 
 					resultadoResta = FuncionResta(primerOperando, segundoOperando);
 
-					//VALIDAR DIVISION (Se controla que el segundo operando no sea 0)
+					//VALIDAR DIVISION (Se controla que el segundo operando no sea 0).
 					divisionValidada = FuncionValidarDivision(segundoOperando);
-					if (divisionValidada != 0) //Si la validación de la división arroja cualquier resultado que no sea 0, se ejecuta la operación de división
+					if (divisionValidada != 0) //Si la validación de la división arroja cualquier resultado que no sea 0, se ejecuta la operación de división.
 					{
 						resultadoDivision = FuncionDivision(primerOperando, segundoOperando);
 					}
 
 					resultadoMultiplicacion = FuncionMultiplicacion(primerOperando, segundoOperando);
 
-					/* 
-					* La función gamma de Euler extiende el concepto de factorial
-					* a todo el plano complejo, excepto a los enteros negativos y al cero.
-					* De este último por convención se dice que su factorial es 1, pero es incorrecto.
-					*
-					*  Por eso se crearon funciones para validar cada factorial.
-					*/
 
-					//VALIDAR FACTORIAL 1 (Se controla que el PRIMER operando no sea negativo o 0)
+					//VALIDAR FACTORIAL 1 (Se controla que el PRIMER operando no sea negativo o 0).
 					factorialPrimerOperandoValidado = FuncionValidarFactorial(primerOperando);
-					if (factorialPrimerOperandoValidado != 0) //Si la validación del factorial arroja cualquier resultado que no sea 0, se ejecuta la función de factorial
+					if (factorialPrimerOperandoValidado != 0) //Si la validación del factorial arroja cualquier resultado que no sea 0, se ejecuta la función de factorial.
 					{
 						factorialPrimerOperando = FuncionFactorial(primerOperando);
 					}
 
-					//VALIDAR FACTORIAL 2 (Se controla que el SEGUNDO operando no sea negativo o 0)
+					//VALIDAR FACTORIAL 2 (Se controla que el SEGUNDO operando no sea negativo o 0).
 					factorialSegundoOperandoValidado = FuncionValidarFactorial(segundoOperando);
-					if (factorialSegundoOperandoValidado != 0) //Si la validación del factorial arroja cualquier resultado que no sea 0, se ejecuta la función de factorial
+					if (factorialSegundoOperandoValidado != 0) //Si la validación del factorial arroja cualquier resultado que no sea 0, se ejecuta la función de factorial.
 					{
 						factorialSegundoOperando = FuncionFactorial(segundoOperando);
 					}
 
-					flagOperacionesCalculadas = 1;
+					flagOperacionesCalculadas = 1; //Ya se han calculado las operaciones para los operandos ingresados.
 				}
 				FuncionLimpiarConsola();
 			break;
