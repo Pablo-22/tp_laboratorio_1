@@ -437,7 +437,11 @@ float FuncionFactorial(int numeroIngresado)
 
 void FuncionLimpiarConsola()
 {
-	/* El símbolo _WIN32 está definido solamente en Windows y con la construcción utilizada el compilador verá, por ejmplo, la instrucción #include<windows.h> solo si es Windows. En una compilación para linux, es como si esa línea del fuente no existiera.*/
+	/* El símbolo _WIN32 está definido solamente en Windows
+	 * y con la construcción utilizada el compilador verá,
+	 * por ejmplo, la instrucción #include<windows.h> solo si
+	 * es Windows. En una compilación para linux, es como si
+	 * esa línea del fuente no existiera.*/
 
 	#ifdef _WIN32
     	system("cls");
