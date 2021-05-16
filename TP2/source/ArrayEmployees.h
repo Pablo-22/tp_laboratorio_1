@@ -1,7 +1,7 @@
 #ifndef ARRAYEMPLOYEES_H_
 #define ARRAYEMPLOYEES_H_
 
-#define LIST_LEN 8
+#define LIST_LEN 1000
 
 #define UP 1
 #define DOWN 0
