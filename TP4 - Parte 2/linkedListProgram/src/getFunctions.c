@@ -2,11 +2,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
-
-#include "ArrayEmployees.h"
-#include "TerminalFunctions.h"
-#include "GetFunctions.h"
-#include "Menu.h"
+#include "terminalFunctions.h"
+#include "getFunctions.h"
 
 
 /********** UTN GET ***********************************
@@ -171,7 +168,7 @@ int isValidDecimal(char datoIngresado[])
 			break;
 		}
 	}
-	
+
 	if ((periodCounter > 1 || commaCounter > 1) || (periodCounter > 0 && commaCounter > 0))
 	{
 		exit = -1;
@@ -215,7 +212,7 @@ int isWhiteSpace(char datoIngresado[])
 	int spaceCounter = 0;
 	int len;
 	len = strlen(datoIngresado);
-	
+
 	for (int i = 0; i < len; i++)
 	{
 		if (isspace(datoIngresado[i]) != 0)
