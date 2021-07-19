@@ -14,16 +14,6 @@ typedef struct
 Employee* employee_new();
 Employee* employee_newParametros(char* idStr,char* nombreStr,char* horasTrabajadasStr, char* sueldoStr, int* idNum);
 
-/**
- * @brief Constructor de un empleado con parámetros, pero sin parseo. Se utiliza al descargar los datos desde el archivo binario, que ya se reciben en el tipo de variable correspondiente.
- * 
- * @param id 
- * @param nombre 
- * @param horasTrabajadas 
- * @param sueldo 
- * @return Employee* Devuelve un puntero al emnpleado creado en memoria
- */
-Employee* employee_newParametrosNormal(int* id,char* nombre,int* horasTrabajadas, int* sueldo);
 void employee_delete();
 
 int employee_setId(Employee* this,int* id);
@@ -208,7 +198,7 @@ int employee_compareByHorasTrabajadas(void* pEmployeeA,void* pEmployeeB);
  * @param path 
  * @return int Devuelve -1 si hubo un error o 0 si todo funcionó correctamente.
  */
-int employee_saveTxt(LinkedList* pArrayListEmployee, FILE* pFile, char* path);
+int employee_saveTxt(LinkedList* pArrayListEmployee, FILE* pFile);
 
 /**
  * @brief Guarda los datos en el archivo binario
@@ -218,7 +208,7 @@ int employee_saveTxt(LinkedList* pArrayListEmployee, FILE* pFile, char* path);
  * @param path 
  * @return int Devuelve -1 si hubo un error o 0 si todo funcionó correctamente.
  */
-int employee_saveBin(LinkedList* pArrayListEmployee, FILE* pFile, char* path);
+int employee_saveBin(LinkedList* pArrayListEmployee, FILE* pFile);
 
 
 #endif // employee_H_INCLUDED

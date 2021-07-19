@@ -39,7 +39,7 @@ int main()
         switch(option)
         {
             case 1:
-                exit = controller_loadFromText("/home/pablocordoba/eclipse-workspace-new/TP3/source/data.csv",employeeList, &id);
+                exit = controller_loadFlights("data.csv",employeeList, &id);
                 if(exit == -1)
                 {
                     CleanConsole();
@@ -52,7 +52,7 @@ int main()
                 }
                 break;
             case 2:
-                exit = controller_loadFromBinary("/home/pablocordoba/eclipse-workspace-new/TP3/source/data.bin", employeeList, &id);
+                exit = controller_loadFromBinary("data.bin", employeeList, &id);
                 if(exit == -1)
                 {
                     CleanConsole();
@@ -105,7 +105,7 @@ int main()
                 
                 break;
             case 6:
-                exit = controller_ListEmployee(employeeList);
+                exit = controller_ListFlights(employeeList);
                 if (exit == -1)
                 {
                     CleanConsole();
@@ -127,7 +127,7 @@ int main()
                 }
                 break;
             case 8:
-                exit = controller_saveAsText("/home/pablocordoba/eclipse-workspace-new/TP3/source/data.csv", employeeList, &id);
+                exit = controller_saveAsText("data.csv", employeeList, &id);
                 if(exit == -1)
                 {
                     CleanConsole();
@@ -140,7 +140,7 @@ int main()
                 }
                 break;
             case 9:
-                exit = controller_saveAsBinary("/home/pablocordoba/eclipse-workspace-new/TP3/source/data.bin", employeeList, &id);
+                exit = controller_saveAsBinary("data.bin", employeeList, &id);
                 if(exit == -1)
                 {
                     CleanConsole();

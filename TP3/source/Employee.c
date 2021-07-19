@@ -7,6 +7,8 @@
 #include "getFunctions.h"
 #include "terminalFunctions.h"
 
+#define CHAR_LEN 148
+
 Employee* employee_new(void)
 {
     Employee* pAux;
@@ -22,6 +24,7 @@ Employee* employee_newParametros(char* idStr,char* nombreStr,char* horasTrabajad
     int horasTrabajadasAux;
     int sueldoAux;
 
+    // De esta forma se verifica si el id viene de un archivo, o de la variable
     if (*idNum == -1)
     {
         idAux = atoi(idStr);
@@ -41,25 +44,6 @@ Employee* employee_newParametros(char* idStr,char* nombreStr,char* horasTrabajad
         {
             free(pAux);
             pAux = NULL;
-            printf("\n**Error - Intente nuevamente**\n");
-        }
-    }
-    return pAux;
-}
-
-
-Employee* employee_newParametrosNormal(int* id,char* nombre,int* horasTrabajadas, int* sueldo)
-{
-    Employee* pAux;
-
-    pAux = employee_new();
-    if(pAux != NULL)
-    {
-        if(employee_setAll(id, nombre, horasTrabajadas, sueldo, pAux) == -1)
-        {
-            free(pAux);
-            pAux = NULL;
-            printf("\n**Error - Intente nuevamente**\n");
         }
     }
     return pAux;
@@ -69,18 +53,31 @@ Employee* employee_newParametrosNormal(int* id,char* nombre,int* horasTrabajadas
 Employee* employee_fillData(LinkedList* pArrayListEmployee, int* id)
 {
     char bufferNombre[128];
+    int horasTrabajadas;
+    int sueldo;
+
     char bufferHorasTrabajadas[128];
     char bufferSueldo[128];
+
     Employee* pAux = employee_new();
 
     if(pAux != NULL)
     {
         do
         {
-            getString("Ingrese nombre: ", bufferNombre);
-            getString("Ingrese cantidad de horas trabajadas: ", bufferHorasTrabajadas);
-            getString("Ingrese sueldo del empleado: ", bufferSueldo);
+            getString("Ingrese nombre: ", "Error, intente nuevamente: ", bufferNombre);
+            horasTrabajadas = getInt("Ingrese cantidad de horas trabajadas: ", "Error, intente nuevamente: ", 0, 500, TRUE);
+            sueldo = getInt("Ingrese sueldo del empleado: ", "Error, intente nuevamente: ", 0, 9999999, TRUE);
+
+            sprintf(bufferHorasTrabajadas, "%d", horasTrabajadas);
+            sprintf(bufferSueldo, "%d", sueldo);
+
             pAux = employee_newParametros("",bufferNombre, bufferHorasTrabajadas, bufferSueldo, id);
+
+            if (pAux == NULL)
+            {
+                printf("\nHa habido un error en alguno de los datos ingresados\n");
+            }
         } while (pAux == NULL);
     }
 	return pAux;
@@ -154,7 +151,7 @@ int employee_setNombre(Employee* this,char* nombre)
     {
         if(isValidName(nombre))
         {
-            strncpy(this->nombre, nombre, NOMBRE_LEN);
+            strncpy(this->nombre, nombre, CHAR_LEN);
             exit = 0;
         }
     }
@@ -181,7 +178,7 @@ int employee_getNombre(Employee* this,char* nombre)
 
     if(this != NULL && nombre != NULL)
     {
-        strncpy(nombre, this->nombre, NOMBRE_LEN);
+        strncpy(nombre, this->nombre, CHAR_LEN);
         exit = 0;
     }
     return exit;
@@ -301,14 +298,16 @@ int Employee_getNextId(int* nextId)
     char bufferId[10];
     int exit = -1;
 
-    pFileId = fopen("/home/pablocordoba/eclipse-workspace-new/TP3/source/nextId.txt", "r");
+    pFileId = fopen("nextId.txt", "r");
 
     if (pFileId != NULL)
     {
-        fgets(bufferId, 9, pFileId);
+        fscanf(pFileId, "%[^\n]", bufferId);
+        //fgets(bufferId, 9, pFileId);
         *nextId = atoi(bufferId);
         exit = 0;
     }
+    
     fclose(pFileId);
     return exit;
 }
@@ -319,7 +318,7 @@ int Employee_saveNextId(int* nextId)
     FILE* pFileId;
     int exit = -1;
 
-    pFileId = fopen("/home/pablocordoba/eclipse-workspace-new/TP3/source/nextId.txt", "w");
+    pFileId = fopen("nextId.txt", "w");
 
     if (pFileId != NULL)
     {
@@ -382,7 +381,7 @@ int employee_editName(Employee* this)
     exit = employee_getId(this, &id);
     if (exit > -1)
     {
-        getString("Ingrese el nuevo nombre del empleado: ", name);
+        getString("Ingrese el nuevo nombre del empleado: ", "Error, intente nuevamente: ", name);
 
         printf("El nombre del empleado de ID %d pasará a ser: %s. \n\n", id, name);
         answer = getChar("¿Desea confirmar este cambio? (s/n): ", "Error, intente nuevamente", 's', 'n', TRUE);
@@ -609,7 +608,7 @@ int employee_compareByHorasTrabajadas(void* pEmployeeA,void* pEmployeeB)
 }
 
 
-int employee_saveTxt(LinkedList* pArrayListEmployee, FILE* pFile, char* path)
+int employee_saveTxt(LinkedList* pArrayListEmployee, FILE* pFile)
 {
     int exit = -1;
     int len;
@@ -620,7 +619,6 @@ int employee_saveTxt(LinkedList* pArrayListEmployee, FILE* pFile, char* path)
     Employee* pAux;
 
     len = ll_len(pArrayListEmployee);
-    pFile = fopen(path, "w");
     if (pFile != NULL && pArrayListEmployee != NULL)
     {
         fprintf(pFile, "%s,%s,%s,%s\n","id","nombre","horasTrabajadas","sueldo");
@@ -637,23 +635,18 @@ int employee_saveTxt(LinkedList* pArrayListEmployee, FILE* pFile, char* path)
             }
         }
     }
-    fclose(pFile);
     return exit;
 }
 
 
-int employee_saveBin(LinkedList* pArrayListEmployee, FILE* pFile, char* path)
+int employee_saveBin(LinkedList* pArrayListEmployee, FILE* pFile)
 {
     int exit = -1;
     int len;
-    char nombreAux[128];
-    int idAux;
-    int horasTrabajadasAux;
-    int sueldoAux;
     Employee* pAux;
 
     len = ll_len(pArrayListEmployee);
-    pFile = fopen(path, "wb");
+
     if (pFile != NULL && pArrayListEmployee != NULL)
     {
         for (int i = 0; i < len; i++)
@@ -661,16 +654,12 @@ int employee_saveBin(LinkedList* pArrayListEmployee, FILE* pFile, char* path)
             pAux = ll_get(pArrayListEmployee, i);
             if (pAux != NULL)
             {
-                if (employee_getAll(&idAux, nombreAux, &horasTrabajadasAux, &sueldoAux, pAux) > -1)
+                if(fwrite(pAux, sizeof(Employee),1, pFile) == 1)
                 {
-                    if(fwrite(pAux, sizeof(Employee),1, pFile) == 1)
-                    {
-                        exit = 0;
-                    }
+                    exit = 0;
                 }
             }
         }
     }
-    fclose(pFile);
     return exit;
 }

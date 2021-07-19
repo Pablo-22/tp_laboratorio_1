@@ -1,5 +1,7 @@
-#ifndef SOURCE_GETFUNCTIONS_H_
-#define SOURCE_GETFUNCTIONS_H_
+#ifndef GETFUNCTIONS_H_
+#define GETFUNCTIONS_H_
+
+#define CHAR_LEN 148
 
 /**
  * @brief Get the Int object
@@ -23,7 +25,7 @@ int getInt(char mensaje[], char mensajeDeError[], int minimo, int maximo, int re
  * @param realizarValidaciones 0 si no se realizarán las validaciones, 1 si se realizarán. (Se ha definido TRUE 1 y FALSE 0).
  * @return float Se devuelve el valor obtenido.
  */
-float getFloat(char mensaje[], char mensajeDeError[], float minimo, int maximo, int realizarValidaciones);
+float getFloat(char mensaje[], char mensajeDeError[], float minimo, float maximo, int realizarValidaciones);
 
 /**
  * @brief Get the Char object
@@ -41,9 +43,10 @@ char getChar(char mensaje[], char mensajeDeError[], char opcion1, char opcion2, 
  * @brief Get the String object
  * 
  * @param mensaje Mensaje que se mostrará al usuario.
+ * @param mensajeDeError Mensaje que se mostrará en caso de error.
  * @param cadenaDeSalida variable char[] donde se guardará la cadena obtenida.
  */
-void getString(char mensaje[], char cadenaDeSalida[]);
+void getString(char mensaje[], char mensajeDeError[], char cadenaDeSalida[]);
 
 
 /**
@@ -53,4 +56,60 @@ void getString(char mensaje[], char cadenaDeSalida[]);
  */
 void indexValidation(int indice);
 
-#endif /* SOURCE_GETFUNCTIONS_H_ */
+/**
+ * @brief Controla que el contenido de la cadena sean números válidos
+ * 
+ * @param datoIngresado 
+ * @return int  -1 si error (la cadena contiene caracteres no numéricos), 0 si OK
+ */
+int isValidInt(char datoIngresado[]);
+
+/**
+ * @brief Controla que el dato ingresado sea un texto válido
+ * 
+ * @param datoIngresado 
+ * @return int -1 si error (la cadena está vacía, tiene solo espacios, o el primer caracter es un espacio, o contiene números), 0 si OK
+ */
+int isValidString(char datoIngresado[]);
+
+/**
+ * @brief Controla que la cadena contenga un float válido
+ * 
+ * @param datoIngresado 
+ * @return int -1 si ERROR (la cadena contiene caracteres que no sean numéricos, o punto, o coma, la cadena contiene más de un punto o una coma), 0 si OK
+ */
+int isValidFloat(char datoIngresado[]);
+
+/**
+ * @brief Controla que la variable no contenga caracteres numéricos
+ * 
+ * @param datoIngresado 
+ * @return int -1 si ERROR, 0 si OK
+ */
+int isValidChar(char datoIngresado);
+
+/**
+ * @brief Controla que la cadena no esté en blanco, no contenga solo espacios, y que el primer caracter no sea espacio.
+ * 
+ * @param datoIngresado 
+ * @return int -1 si ERROR, 0 si OK
+ */
+int isBlankString(char datoIngresado[]);
+
+/**
+ * @brief Verifica que el contenido total de la cadena no sean espacios, y que el primer caracter no sea espacio.
+ * 
+ * @param datoIngresado 
+ * @return int -1 si ERROR, 0 si OK
+ */
+int isWhiteSpace(char datoIngresado[]);
+
+/**
+ * @brief Controla que la cadena tenga máximo un punto o una coma.
+ * 
+ * @param datoIngresado 
+ * @return int  -1 si ERROR, 0 si OK
+ */
+int isValidDecimal(char datoIngresado[]);
+
+#endif /* GETFUNCTIONS_H_ */

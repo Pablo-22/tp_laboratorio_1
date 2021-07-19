@@ -1,12 +1,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
 #include "LinkedList.h"
 #include "getFunctions.h"
 #include "terminalFunctions.h"
 #include "Employee.h"
 #include "parser.h"
 #include "Menu.h"  
+#include "Controller.h"
 
 
 /** \brief Carga los datos de los empleados desde el archivo data.csv (modo texto).
@@ -16,17 +18,17 @@
  * \return int
  *
  */
-int controller_loadFromText(char* path , LinkedList* pArrayListEmployee, int* id)
+int controller_loadFlights(char* path , LinkedList* pArrayListEmployee, int* id)
 {
-    int exit;
+    int exit = -1;
     int len;
     FILE* pFile = fopen(path, "r");
-    fclose(pFile);
 
     if (pFile != NULL)
     {
         ll_clear(pArrayListEmployee);
         exit = parser_EmployeeFromText(pFile, pArrayListEmployee);
+        fclose(pFile);
 
         len = ll_len(pArrayListEmployee);
 
@@ -51,9 +53,9 @@ int controller_loadFromBinary(char* path , LinkedList* pArrayListEmployee, int* 
     int len;
     FILE* pFile = fopen(path, "rb");
 
-    ll_clear(pArrayListEmployee);
     if (pFile != NULL)
     {
+        ll_clear(pArrayListEmployee);
         exit = parser_EmployeeFromBinary(pFile, pArrayListEmployee);
         fclose(pFile);
 
@@ -118,7 +120,7 @@ int controller_editEmployee(LinkedList* pArrayListEmployee)
         if (pAux != NULL)
         {
             option = menu_ModifyEmployee();
-            exit = controller_switchModifyEmployee(option, pArrayListEmployee);
+            exit = controller_switchModifyEmployee(option, pAux);
         }  
     }
     
@@ -156,7 +158,7 @@ int controller_removeEmployee(LinkedList* pArrayListEmployee)
  * \return int
  *
  */
-int controller_ListEmployee(LinkedList* pArrayListEmployee)
+int controller_ListFlights(LinkedList* pArrayListEmployee)
 {
     int exit = employee_printAll(pArrayListEmployee);
     return exit;
@@ -214,18 +216,18 @@ int controller_saveAsText(char* path , LinkedList* pArrayListEmployee, int* id)
 {
     int exit = -1;
     int flagIsEmpty;
-    FILE* pFile = fopen(path, "r");
-    fclose(pFile);
+    FILE* pFile = fopen(path, "w");
 
     flagIsEmpty = ll_isEmpty(pArrayListEmployee);
     if (flagIsEmpty == 0)
     {
-        exit = employee_saveTxt(pArrayListEmployee, pFile, path);
+        exit = employee_saveTxt(pArrayListEmployee, pFile);
         if (exit > -1)
         {
             exit = Employee_saveNextId(id);
         } 
     }
+    fclose(pFile);
     return exit;
 }
 
@@ -240,19 +242,18 @@ int controller_saveAsBinary(char* path , LinkedList* pArrayListEmployee, int* id
 {
     int exit = -1;
     int flagIsEmpty;
-    FILE* pFile;
+    FILE* pFile = fopen(path, "wb");
 
     flagIsEmpty = ll_isEmpty(pArrayListEmployee);
-    if (flagIsEmpty == 0)
+    if (flagIsEmpty == 0 && pFile != NULL)
     {
-        pFile = fopen(path, "wb");
-        fclose(pFile);
-        exit = employee_saveBin(pArrayListEmployee, pFile, path);
+        exit = employee_saveBin(pArrayListEmployee, pFile);
         if (exit > -1)
         {
             exit = Employee_saveNextId(id);
         }
     }
+    fclose(pFile);
     return exit;
 }
 

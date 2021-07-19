@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "LinkedList.h"
+#include "getFunctions.h"
 #include "Employee.h"
 #include "parser.h"
 
@@ -25,7 +26,6 @@ int parser_EmployeeFromText(FILE* pFile , LinkedList* pArrayListEmployee)
 
     Employee* pAux; 
 
-    pFile = fopen("/home/pablocordoba/eclipse-workspace-new/TP3/source/data.csv", "r");
     if (pFile != NULL && pArrayListEmployee != NULL)
     {
 
@@ -48,7 +48,6 @@ int parser_EmployeeFromText(FILE* pFile , LinkedList* pArrayListEmployee)
             }
         }
     }
-	fclose(pFile);
     return exit;
 }
 
@@ -66,10 +65,9 @@ int parser_EmployeeFromBinary(FILE* pFile , LinkedList* pArrayListEmployee)
     int auxId;
     int auxHorasTrabajadas;
     int auxSueldo;
-    char auxNombre[NOMBRE_LEN];
+    char auxNombre[CHAR_LEN];
     Employee* pAux; 
 
-    pFile = fopen("/home/pablocordoba/eclipse-workspace-new/TP3/source/data.bin", "rb");
     if (pFile != NULL && pArrayListEmployee != NULL)
     {
         while (!feof(pFile))
@@ -88,7 +86,6 @@ int parser_EmployeeFromBinary(FILE* pFile , LinkedList* pArrayListEmployee)
             }            
         }
     }
-	fclose(pFile);
     return exit;
 }
 
